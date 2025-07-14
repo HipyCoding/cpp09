@@ -6,22 +6,35 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:39 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/13 18:04:11 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/14 03:08:32 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-template <typename TContainer>
-class PmergeMe
-{
-	private:
-		//containers
-	public:
-		PmergeMe(void) =  delete;
-		PmergeMe(char **argv);
-		PmergeMe(const PmergeMe& src)=  delete;
-		PmergeMe &operator=(const PmergeMe &src)=  delete;
-		~PmergeMe() = default;
+#ifndef PMERGEME_HPP
+#define PMERGEME_HPP
 
-	//some getters and setters
-	//exceptions
-}
+#include <vector>
+#include <deque>
+#include <iostream>
+#include <string_view>
+#include <stdexcept>
+
+class PmergeMe {
+private:
+	std::vector<int> _vectorData;
+	std::deque<int> _dequeData;
+	
+	bool isValidNumber(std::string_view str) const;
+	void displaySequence(std::string_view label, const std::vector<int>& sequence) const;
+
+public:
+	PmergeMe() = default;
+	PmergeMe(const PmergeMe& other) = default;
+	PmergeMe& operator=(const PmergeMe& other) = default;
+	~PmergeMe() = default;
+	
+	void parseInput(int argc, char* argv[]);
+	void displayOriginal() const;
+};
+
+#endif
