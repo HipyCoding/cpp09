@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:42 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/14 14:31:50 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:56:14 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ void PmergeMe::mergeInsertSort(Container& container, size_t size)
 }
 
 template<typename Container>
-auto PmergeMe::binaryInsert(Container& container,
-						   auto begin, auto end,
-						   const typename Container::value_type& value)
+typename Container::iterator PmergeMe::binaryInsert(Container& container,
+											typename Container::iterator begin,
+											typename Container::iterator end,
+											const typename Container::value_type& value)
 {
 	(void)container;
-	return (std::lower_bound(begin, end, value));
+	return std::lower_bound(begin, end, value);
 }
 
 #endif

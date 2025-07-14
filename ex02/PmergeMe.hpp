@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:39 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/14 14:30:45 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:47:19 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ class PmergeMe
 		void mergeInsertSort(Container& container, size_t size);
 		
 		template<typename Container>
-		auto binaryInsert(Container& container, 
-						auto begin, auto end,
-						const typename Container::value_type& value);
+		typename Container::iterator binaryInsert(Container& container, 
+												typename Container::iterator begin,
+												typename Container::iterator end,
+												const typename Container::value_type& value);
 		
 		bool isValidNumber(std::string_view str) const;
 		void displaySequence(std::string_view label, const std::vector<int>& sequence) const;
