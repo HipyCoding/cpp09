@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:34 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/14 21:34:08 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/15 04:08:05 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,8 @@ void PmergeMe::displaySequence(std::string_view label, const std::vector<int>& s
 {
 	std::cout << label;
 	
-	constexpr size_t displayLimit = 4;
-	for (size_t i = 0; i < std::min(sequence.size(), displayLimit); ++i)
+	for (size_t i = 0; i < sequence.size(); ++i)
 		std::cout << " " << sequence[i];
-	
-	if (sequence.size() > displayLimit)
-		std::cout << " [...]";
 	
 	std::cout << '\n';
 }

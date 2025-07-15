@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:42 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/14 21:39:08 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/15 03:53:22 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void PmergeMe::fordJohnsonSort(Container& container) const
 		return;
 	mergeInsertSort(container, container.size());
 }
+
+
 
 template<typename Container>
 void PmergeMe::mergeInsertSort(Container& container, size_t size) const
@@ -66,10 +68,67 @@ void PmergeMe::mergeInsertSort(Container& container, size_t size) const
 		mergeInsertSort(larger, larger.size());
 	
 	Container mainChain;
-	if (!smaller.empty())
-		mainChain.push_back(smaller[0]);
-	
+if (!smaller.empty())
+	mainChain.push_back(smaller[0]);
+
 	std::copy(larger.begin(), larger.end(), std::back_inserter(mainChain));
+
+	if (smaller.size() > 1)
+	{
+		std::vector<bool> inserted(smaller.size(), false);
+		inserted[0] = true;
+		
+		size_t jacobsthalIndex = 3;
+		size_t prevJacobsthal = 1;
+		
+		while (true)
+		{
+			size_t currentJacobsthal = jacobsthal(jacobsthalIndex);
+			if (currentJacobsthal >= smaller.size())
+				currentJacobsthal = smaller.size() - 1;
+			
+			for (size_t i = currentJacobsthal; i > prevJacobsthal && i < smaller.size(); --i)
+			{
+				if (!inserted[i])
+				{
+					typename Container::iterator pos = binaryInsert(mainChain, 
+																	mainChain.begin(), 
+																	mainChain.end(), 
+																	smaller[i]);
+					mainChain.insert(pos, smaller[i]);
+					inserted[i] = true;
+				}
+			}
+			
+			if (currentJacobsthal >= smaller.size() - 1)
+				break;
+			
+			prevJacobsthal = currentJacobsthal;
+			jacobsthalIndex++;
+		}
+		
+		for (size_t i = 1; i < smaller.size(); ++i)
+		{
+			if (!inserted[i])
+			{
+				typename Container::iterator pos = binaryInsert(mainChain, 
+																mainChain.begin(), 
+																mainChain.end(), 
+																smaller[i]);
+				mainChain.insert(pos, smaller[i]);
+			}
+		}
+	}
+	
+	if (oddElement.has_value())
+	{
+		typename Container::iterator pos = binaryInsert(mainChain, 
+														mainChain.begin(), 
+														mainChain.end(), 
+														oddElement.value());
+		mainChain.insert(pos, oddElement.value());
+	}
+	
 	container = std::move(mainChain);
 }
 
@@ -86,9 +145,7 @@ typename Container::iterator PmergeMe::binaryInsert(Container& container,
 #endif
 
 
-
-// --- last working version
-
+// --last working
 // template<typename Container>
 // void PmergeMe::mergeInsertSort(Container& container, size_t size) const
 // {
@@ -121,9 +178,76 @@ typename Container::iterator PmergeMe::binaryInsert(Container& container,
 // 		mergeInsertSort(larger, larger.size());
 	
 // 	Container mainChain;
-// 	if (!smaller.empty())
-// 		mainChain.push_back(smaller[0]);
-	
+// if (!smaller.empty())
+// 	mainChain.push_back(smaller[0]);
+
 // 	std::copy(larger.begin(), larger.end(), std::back_inserter(mainChain));
+
+// 	if (smaller.size() > 1)
+// 	{
+// 		std::vector<bool> inserted(smaller.size(), false);
+// 		inserted[0] = true;
+		
+// 		size_t jacobsthalIndex = 3;
+// 		size_t prevJacobsthal = 1;
+		
+// 		while (true)
+// 		{
+// 			size_t currentJacobsthal = jacobsthal(jacobsthalIndex);
+// 			if (currentJacobsthal >= smaller.size())
+// 				currentJacobsthal = smaller.size() - 1;
+			
+// 			for (size_t i = currentJacobsthal; i > prevJacobsthal && i < smaller.size(); --i)
+// 			{
+// 				if (!inserted[i])
+// 				{
+// 					typename Container::iterator pos = binaryInsert(mainChain, 
+// 																	mainChain.begin(), 
+// 																	mainChain.end(), 
+// 																	smaller[i]);
+// 					mainChain.insert(pos, smaller[i]);
+// 					inserted[i] = true;
+// 				}
+// 			}
+			
+// 			if (currentJacobsthal >= smaller.size() - 1)
+// 				break;
+			
+// 			prevJacobsthal = currentJacobsthal;
+// 			jacobsthalIndex++;
+// 		}
+		
+// 		for (size_t i = 1; i < smaller.size(); ++i)
+// 		{
+// 			if (!inserted[i])
+// 			{
+// 				typename Container::iterator pos = binaryInsert(mainChain, 
+// 																mainChain.begin(), 
+// 																mainChain.end(), 
+// 																smaller[i]);
+// 				mainChain.insert(pos, smaller[i]);
+// 			}
+// 		}
+// 	}
+	
+// 	if (oddElement.has_value())
+// 	{
+// 		typename Container::iterator pos = binaryInsert(mainChain, 
+// 														mainChain.begin(), 
+// 														mainChain.end(), 
+// 														oddElement.value());
+// 		mainChain.insert(pos, oddElement.value());
+// 	}
+	
 // 	container = std::move(mainChain);
+// }
+
+// template<typename Container>
+// typename Container::iterator PmergeMe::binaryInsert(Container& container,
+// 													typename Container::iterator begin,
+// 													typename Container::iterator end,
+// 													const typename Container::value_type& value) const
+// {
+// 	(void)container;
+// 	return std::lower_bound(begin, end, value);
 // }
