@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:42 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/15 03:53:22 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:14:35 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void PmergeMe::fordJohnsonSort(Container& container) const
 		return;
 	mergeInsertSort(container, container.size());
 }
-
-
 
 template<typename Container>
 void PmergeMe::mergeInsertSort(Container& container, size_t size) const
@@ -68,11 +66,11 @@ void PmergeMe::mergeInsertSort(Container& container, size_t size) const
 		mergeInsertSort(larger, larger.size());
 	
 	Container mainChain;
-if (!smaller.empty())
-	mainChain.push_back(smaller[0]);
-
+	if (!smaller.empty())
+		mainChain.push_back(smaller[0]);
+	
 	std::copy(larger.begin(), larger.end(), std::back_inserter(mainChain));
-
+	
 	if (smaller.size() > 1)
 	{
 		std::vector<bool> inserted(smaller.size(), false);
@@ -92,9 +90,9 @@ if (!smaller.empty())
 				if (!inserted[i])
 				{
 					typename Container::iterator pos = binaryInsert(mainChain, 
-																	mainChain.begin(), 
-																	mainChain.end(), 
-																	smaller[i]);
+																  mainChain.begin(), 
+																  mainChain.end(), 
+																  smaller[i]);
 					mainChain.insert(pos, smaller[i]);
 					inserted[i] = true;
 				}
@@ -112,9 +110,9 @@ if (!smaller.empty())
 			if (!inserted[i])
 			{
 				typename Container::iterator pos = binaryInsert(mainChain, 
-																mainChain.begin(), 
-																mainChain.end(), 
-																smaller[i]);
+															  mainChain.begin(), 
+															  mainChain.end(), 
+															  smaller[i]);
 				mainChain.insert(pos, smaller[i]);
 			}
 		}
@@ -123,9 +121,9 @@ if (!smaller.empty())
 	if (oddElement.has_value())
 	{
 		typename Container::iterator pos = binaryInsert(mainChain, 
-														mainChain.begin(), 
-														mainChain.end(), 
-														oddElement.value());
+													   mainChain.begin(), 
+													   mainChain.end(), 
+													   oddElement.value());
 		mainChain.insert(pos, oddElement.value());
 	}
 	
@@ -142,10 +140,22 @@ typename Container::iterator PmergeMe::binaryInsert(Container& container,
 	return std::lower_bound(begin, end, value);
 }
 
+template<typename F>
+double PmergeMe::measureTime(F&& func) const
+{
+	auto start = std::chrono::high_resolution_clock::now();
+	func();
+	auto end = std::chrono::high_resolution_clock::now();
+	
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	return static_cast<double>(duration.count());
+}
+
 #endif
 
 
-// --last working
+// --latest working
+
 // template<typename Container>
 // void PmergeMe::mergeInsertSort(Container& container, size_t size) const
 // {
@@ -178,7 +188,7 @@ typename Container::iterator PmergeMe::binaryInsert(Container& container,
 // 		mergeInsertSort(larger, larger.size());
 	
 // 	Container mainChain;
-// if (!smaller.empty())
+// 	if (!smaller.empty())
 // 	mainChain.push_back(smaller[0]);
 
 // 	std::copy(larger.begin(), larger.end(), std::back_inserter(mainChain));
@@ -233,21 +243,11 @@ typename Container::iterator PmergeMe::binaryInsert(Container& container,
 // 	if (oddElement.has_value())
 // 	{
 // 		typename Container::iterator pos = binaryInsert(mainChain, 
-// 														mainChain.begin(), 
-// 														mainChain.end(), 
-// 														oddElement.value());
+// 													   mainChain.begin(), 
+// 													   mainChain.end(), 
+// 													   oddElement.value());
 // 		mainChain.insert(pos, oddElement.value());
 // 	}
 	
 // 	container = std::move(mainChain);
-// }
-
-// template<typename Container>
-// typename Container::iterator PmergeMe::binaryInsert(Container& container,
-// 													typename Container::iterator begin,
-// 													typename Container::iterator end,
-// 													const typename Container::value_type& value) const
-// {
-// 	(void)container;
-// 	return std::lower_bound(begin, end, value);
-// }
+// 	}

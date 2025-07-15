@@ -1,5 +1,5 @@
 
-NAME = sort
+NAME = PmergeMe
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++17 -fsanitize=address -g3
 

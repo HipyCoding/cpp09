@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:34 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/15 04:08:05 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:13:58 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,27 @@ void PmergeMe::displaySequence(std::string_view label, const std::vector<int>& s
 	std::cout << '\n';
 }
 
-void PmergeMe::displayOriginal() const
+void PmergeMe::sortAndDisplay()
 {
 	displaySequence("before:", _vectorData);
-}
-
-void PmergeMe::displaySorted() const
-{
-	auto sortedVector = _vectorData;
-	fordJohnsonSort(sortedVector);
-	displaySequence("after:", sortedVector);
+	
+	auto vectorCopy = _vectorData;
+	auto dequeCopy = _dequeData;
+	
+	double vectorTime = measureTime([&]()
+	{
+		fordJohnsonSort(vectorCopy);
+	});
+	
+	double dequeTime = measureTime([&]()
+	{
+		fordJohnsonSort(dequeCopy);
+	});
+	
+	displaySequence("after:", vectorCopy);
+	
+	std::cout << "time to process a range of " << _vectorData.size() 
+			  << " elements with std::vector : " << vectorTime << " us\n";
+	std::cout << "time to process a range of " << _dequeData.size() 
+			  << " elements with std::deque : " << dequeTime << " us\n";
 }

@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:31 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/15 04:07:09 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:09:20 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ int main(int argc, char* argv[])
 	{
 		PmergeMe pmergeMe;
 		pmergeMe.parseInput(argc, argv);
-		pmergeMe.displayOriginal();
-		pmergeMe.displaySorted();
+		pmergeMe.sortAndDisplay();
 		
 		return 0;
 	}
 	catch (const std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
+
 		return 1;
 	}
 }
 
-// ./sort $(jot -r 3000 1 10000 | tr '\n' ' ')
+// ./PmergeMe $(jot -r 3000 1 10000 | tr '\n' ' ')

@@ -6,7 +6,7 @@
 /*   By: candrese <candrese@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 17:27:39 by candrese          #+#    #+#             */
-/*   Updated: 2025/07/15 04:07:41 by candrese         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:14:55 by candrese         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string_view>
 #include <stdexcept>
 #include <algorithm>
+#include <chrono>
 
 class PmergeMe
 {
@@ -40,6 +41,9 @@ private:
 	
 	bool isValidNumber(std::string_view str) const;
 	void displaySequence(std::string_view label, const std::vector<int>& sequence) const;
+	
+	template<typename F>
+	double measureTime(F&& func) const;
 
 public:
 	PmergeMe() = default;
@@ -48,8 +52,7 @@ public:
 	~PmergeMe() = default;
 	
 	void parseInput(int argc, char* argv[]);
-	void displayOriginal() const;
-	void displaySorted() const;
+	void sortAndDisplay();
 };
 
 #include "PmergeMe.tpp"
